@@ -3,8 +3,7 @@
             [clj-http.headers :refer :all]
             [clj-http.util :refer [lower-case-keys]]
             [clojure.test :refer :all])
-  (:import [javax.servlet.http HttpServletRequest HttpServletResponse]
-           [org.eclipse.jetty.server Request Server]
+  (:import [org.eclipse.jetty.server Request Server]
            org.eclipse.jetty.server.handler.AbstractHandler))
 
 (deftest test-special-case
@@ -90,8 +89,8 @@
     (.setHandler (proxy [AbstractHandler] []
                    (handle [target
                             ^Request base-request
-                            ^HttpServletRequest request
-                            ^HttpServletResponse response]
+                            request
+                            response]
                      (.setHandled base-request true)
                      (.setStatus response 200)
                      ;; copy over request headers verbatim
