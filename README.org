@@ -128,7 +128,8 @@ If you need an older version, a 2.x release is also available.
 [clj-http "2.3.0"]
 #+END_SRC
 
-clj-http 3.x supports clojure 1.6.0 and higher.
+clj-http 3.12.x supports clojure 1.6.0 and higher.
+clj-http 3.13.x supports clojure 1.8.0 and higher.
 clj-http 4.x will support clojure 1.7.0 and higher.
 
 * Quickstart

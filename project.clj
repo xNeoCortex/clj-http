@@ -1,4 +1,4 @@
-(defproject clj-http "3.12.5-SNAPSHOT"
+(defproject clj-http "3.13.0-SNAPSHOT"
   :description "A Clojure HTTP library wrapping the Apache HttpComponents client."
   :url "https://github.com/dakrone/clj-http/"
   :license {:name "The MIT License"
@@ -40,12 +40,10 @@
                              [jonase/eastwood "0.2.5"]
                              [lein-kibit "0.1.5"]
                              [lein-nvd "0.5.2"]]}
-             :1.6 {:dependencies [[org.clojure/clojure "1.6.0"]]}
-             :1.7 {:dependencies [[org.clojure/clojure "1.7.0"]]}
              :1.8 {:dependencies [[org.clojure/clojure "1.8.0"]]}
              :1.9 {:dependencies [[org.clojure/clojure "1.9.0"]]}
              :1.10 {:dependencies [[org.clojure/clojure "1.10.1"]]}}
-  :aliases {"all" ["with-profile" "dev,1.6:dev,1.7:dev,1.8:dev,1.9:dev,1.10:dev"]}
+  :aliases {"all" ["with-profile" "dev,1.8:dev,1.9:dev,1.10:dev"]}
   :plugins [[codox "0.6.4"]]
   :test-selectors {:default  #(not (:integration %))
                    :integration :integration
