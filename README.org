@@ -119,7 +119,7 @@ function.
 With Leiningen/Boot:
 
 #+BEGIN_SRC clojure
-[clj-http "3.12.3"]
+[clj-http "3.12.4"]
 #+END_SRC
 
 If you need an older version, a 2.x release is also available.
@@ -1444,6 +1444,9 @@ In previous versions of =clj-http= (<= 3.10.0), =clj-http= defaulted to lazily p
 was slow and also confused users who didn't expect laziness.
 
 ** DNS Resolution
+:PROPERTIES:
+:CUSTOM_ID: h:52CC15DF-57A5-425E-9AFC-10C9B4C4FA83
+:END:
 
 Users may add their own DNS resolver function to override the default DNS Resolver. This is useful in situations where you are unable to change the name to IP Address mapping. It is analogous to the =--resolve= flag present in =curl=. This example uses =org.apache.http.impl.conn.InMemoryDnsResolver= to resolve =example.com= to IP Address =127.0.0.1=. 
 
