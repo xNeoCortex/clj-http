@@ -16,7 +16,8 @@
   (:import [java.io BufferedReader ByteArrayInputStream ByteArrayOutputStream EOFException File InputStream]
            [java.net UnknownHostException URL]
            [org.apache.http.entity BufferedHttpEntity ByteArrayEntity FileEntity InputStreamEntity StringEntity]
-           [javax.xml.parsers SAXParserFactory]
+           [javax.xml.parsers SAXParser SAXParserFactory]
+           org.xml.sax.helpers.DefaultHandler
            org.apache.http.impl.conn.PoolingHttpClientConnectionManager
            org.apache.http.impl.nio.conn.PoolingNHttpClientConnectionManager))
 
@@ -474,18 +475,25 @@
                (util/force-string body charset))]
     (assoc resp :body body)))
 
+(defn- sax-parser ^SAXParser []
+  (..
+   (doto
+    (SAXParserFactory/newInstance)
+     (.setFeature
+      "http://apache.org/xml/features/nonvalidating/load-external-dtd" false))
+   (newSAXParser)))
+
+(defn- non-validating [s ^DefaultHandler ch]
+  (let [parser (sax-parser)]
+    (cond
+      (instance? String s) (.parse parser ^String s ch)
+      (instance? InputStream s) (.parse parser ^InputStream s ch)
+      :else (throw (ex-info "Unsupported input" {:s s})))))
+
 (defn- decode-xml-body [body]
-  (let [non-validating (fn [s ch]
-                         (..
-                           (doto
-                             (SAXParserFactory/newInstance)
-                             (.setFeature
-                               "http://apache.org/xml/features/nonvalidating/load-external-dtd" false))
-                           (newSAXParser)
-                           (parse s ch)))]
-    (-> body
-        (util/force-stream)
-        (xml/parse non-validating))))
+  (-> body
+      (util/force-stream)
+      (xml/parse non-validating)))
 
 (defn coerce-xml-body
   [request {:keys [body] :as resp} & [charset]]
@@ -891,7 +899,6 @@
      (client (oauth-request req)))
     ([req respond raise]
      (client (oauth-request req) respond raise))))
-
 
 (defn parse-user-info [user-info]
   (when user-info
