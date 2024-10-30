@@ -171,8 +171,7 @@
   [path-or-query]
   (when path-or-query
     (-> path-or-query
-        (str/replace " " "%20")
-        (str/replace #"[^a-zA-Z0-9\.\-\_\~\!\$\&\'\(\)\*\+\,\;\=\:\@\/\%\?]"
+        (str/replace #"[^a-zA-Z0-9\.\-\_\~\!\$\&\'\(\)\*\+\,\;\=\:\@\/]"
                      util/url-encode))))
 
 (defn parse-url
